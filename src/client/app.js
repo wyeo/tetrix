@@ -1,5 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import HelloWorld from './components/HelloWorld'
+import { Provider } from 'react-redux'
+import { store } from './store/index'
+import Game from './components/Game'
 
-ReactDOM.render(<HelloWorld />, document.getElementById('main'))
+window.store = store
+
+ReactDOM.render(
+  <Provider store={store}>
+    <Game />
+  </Provider>, document.getElementById('main'),
+)
