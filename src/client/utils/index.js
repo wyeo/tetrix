@@ -1,4 +1,16 @@
+const _ = require('lodash')
+
 const initValue = [
+  // [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  // Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  [0, 0, 0, 0, 0, 0, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -13,79 +25,57 @@ const initValue = [
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
-  [0, 1, 1, 1, 1, 0, 1, 0, 0, 1],
-  [0, 1, 1, 1, 1, 1, 1, 0, 0, 1],
-  [1, 1, 1, 1, 1, 1, 1, 0, 1, 1],
 ]
 
-const tetriI = () => {
-  const result = Array(4)
+const tetriS = [
+  [0, 1, 1, 0],
+  [1, 1, 0, 0],
+  [0, 0, 0, 0],
+  [0, 0, 0, 0],
+]
 
-  result[0] = [
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-  ]
-  result[1] = [
-    [0, 0, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 1, 0],
-  ]
-  result[2] = [
-    [0, 0, 0, 0],
-    [0, 0, 0, 0],
-    [1, 1, 1, 1],
-    [0, 0, 0, 0],
-  ]
-  result[3] = [
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 0, 0],
-  ]
+const tetriI = [
+  [0, 0, 1, 0],
+  [0, 0, 1, 0],
+  [0, 0, 1, 0],
+  [0, 0, 1, 0],
+]
 
-  return result
-}
+const checkGame = (game, y, x) => _.chain(game[y])
+    .takeRight(game[y].length - x)
+    .every(t => t === 0)
+    .value()
 
-console.log(tetriI()[0][0].length)
+const checkInsertion = (y, x, game, tetri) => {
+  const tmpGame = _.clone(game)
+  let state = true
 
-const addTetri = (x, y, tetri, gameBoard) => {
-  let game = gameBoard
+  for (let i = 0; i < tetri.length; i += 1) {
+    tetri[i].forEach((value, index) => {
+      if (value && tmpGame[y + i][x + index] === 1) {
+        state = false
+      }
+    })
+  }
+  return state
 }
 
 /* Implementation of (x,y) "insertTetri" */
+const insertTetri = (y, x, game, tetri) => {
+  const tmpGame = game.slice()
 
-// const insertTetri = (y, x, game, tetri) => {
-//   const tmpGame = game.slice()
-//
-//   if (!tmpGame[y][x]) {
-//   //  console.log(tetri.length)
-//     for (let i = 0; i < tetri.length; i += 1) {
-//       tetri[i].map((value, index) => {
-//         if (value && !tmpGame[y + i][x + index]) {
-//           tmpGame[y + i][x + index] = value
-//         }
-//         console.log(value)
-//         return value
-//       })
-//     }
-//   }
-// }
+  if (checkGame(game, y, x) && checkInsertion(y, x, game, tetri)) {
+    for (let i = 0; i < tetri.length; i += 1) {
+      tetri[i].forEach((value, index) => {
+        if (value && !tmpGame[y + i][x + index]) {
+          tmpGame[y + i][x + index] = value
+        }
+      })
+    }
+  } else {
+    console.log('ERROR')
+  }
+  return tmpGame
+}
 
-//   return tmpGame
-/* CLEAN WITH THE RIGHT SPATIAL POSTION IN ARRAY */
-// let i = 0
-// setInterval(() => {
-//   if (i < 19) {
-//     console.log(insertTetri(i, 3, initialGame, tetriO))
-//     i += 1
-//   }
-// }, 1000)
-
-addTetri(0, 0, tetriI()[0], initValue)
+console.log(insertTetri(3, 4, initValue, tetriI))
