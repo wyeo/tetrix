@@ -3,7 +3,15 @@ import { combineReducers } from 'redux'
 const changeTetri = (state = [], action) => {
   switch (action.type) {
     case 'CHANGE_TETRI':
-      return action.value
+      return {
+        type: action.value.type,
+        position: action.position,
+        values: action.value.value,
+      }
+    case 'UPDATE_TETRI':
+      return Object.assign({}, state, {
+        position: state.position < 4 ? state.position + 1 : 0,
+      })
     default:
       return state
   }

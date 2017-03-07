@@ -3,14 +3,12 @@ import 'rxjs/add/operator/filter'
 import 'rxjs/add/operator/map'
 import Rx from 'rxjs/Rx';
 
-import fromEvent from 'rxjs/observable/fromEvent';
-
 const windowKeyUpEpic = () =>
   Rx.Observable.fromEvent(document, 'keyup')
-    .map(event => ({
-      type: 'KEY_UP',
-      key: event.key,
-      event,
+    .filter(e => parseInt(e.keyCode, 10) === 38)
+    .map(e => ({
+      type: 'UPDATE_TETRI',
+      key: e.keyCode,
     }));
 
 const rootEpic = combineEpics(windowKeyUpEpic)

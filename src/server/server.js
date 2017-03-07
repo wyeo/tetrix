@@ -32,37 +32,9 @@ const initialGame = new Game(initValue).getGame()
 
 const getTetri = () => tetris[Math.floor(Math.random() * tetris.length)]
 
-/* Implementation of (x,y) "insertTetri" */
-// const insertTetri = (y, x, game, tetri) => {
-//   const tmpGame = game.slice()
-//
-//   if (!tmpGame[y][x]) {
-//     for (let i = 0; i < tetri.value.length; i += 1) {
-//       tetri.value[i].map((value, index) => {
-//         if (value && !tmpGame[y + i][x + index]) {
-//           tmpGame[y + i][x + index] = value
-//         }
-//         return value
-//       })
-//     }
-//   }
-//   return tmpGame
-// }
-
-/* CLEAN WITH THE RIGHT SPATIAL POSTION IN ARRAY */
-// let i = 0
-// setInterval(() => {
-//   if (i < 19) {
-//     console.log(insertTetri(i, 3, initialGame, tetriO))
-//     i += 1
-//   }
-// }, 1000)
-
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain')
-  res.end(`
-    :-)
-  `)
+  res.end(':-)')
 })
 
 const io = require('socket.io').listen(server)

@@ -20,13 +20,13 @@ const socketMiddleware = () => {
           .on('newGame', data => store.dispatch({ type: 'UPDATE_GAME', value: data.game }))
         socket.emit('getTetri')
           .on('newTetri', (data) => {
-            store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri })
+            store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri, position: 0 })
             store.dispatch({ type: 'START_GAME' })
           })
         return null
       case 'GET_NEW_TETRI':
         socket.emit('getTetri')
-          .on('newTetri', data => store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri }))
+          .on('newTetri', data => store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri, position: 0 }))
         return null
       case 'DISCONNECT':
         if (socket !== null) {
