@@ -20,6 +20,7 @@
   "author": "us",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.15.2",
     "lodash": "^4.17.4",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
@@ -30,7 +31,8 @@
     "rx-dom": "^7.0.3",
     "rxjs": "^5.2.0",
     "socket.io": "^1.7.3",
-    "socket.io-client": "^1.7.3"
+    "socket.io-client": "^1.7.3",
+    "ws": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.14.0",

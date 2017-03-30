@@ -1,34 +1,65 @@
 import { combineReducers } from 'redux'
+import insertTetri from '../utils/index'
 
-const changeTetri = (state = [], action) => {
+const tetri = (state = [], action) => {
   switch (action.type) {
-    case 'CHANGE_TETRI':
+    case 'NEW_TETRI':
       return {
         type: action.value.type,
         position: action.position,
+        x: action.x,
         values: action.value.value,
       }
+    case 'CHANGE_X':
+      return Object.assign({}, state, {
+        x: action.value,
+      })
     case 'UPDATE_TETRI':
       return Object.assign({}, state, {
-        position: state.position < 4 ? state.position + 1 : 0,
+        position: state.position < 3 ? state.position + 1 : 0,
       })
     default:
       return state
   }
 }
 
-const updateGame = (state = [], action) => {
+const previewGame = (state = [], action) => {
+  const { y, x, game } = action
+
   switch (action.type) {
-    case 'UPDATE_GAME':
+    case 'NEW_PREVIEW':
+      if (insertTetri(y, x, game, action.tetri[action.position]).state === false) {
+        return insertTetri(y, x, game, action.tetri[action.position]).tmpGame
+      }
+      return state
+    default:
+      return state
+  }
+}
+
+const game = (state = [], action) => {
+  switch (action.type) {
+    case 'NEW_GAME_BOARD':
       return action.value
     default:
       return state
   }
 }
 
+const status = (state = '', action) => {
+  switch (action.type) {
+    case 'GAME_OVER':
+      return 'GAME OVER'
+    default:
+      return state
+  }
+}
+
 const rootReducer = combineReducers({
-  tetri: changeTetri,
-  game: updateGame,
+  tetri,
+  game,
+  previewGame,
+  status,
 })
 
 module.exports = rootReducer

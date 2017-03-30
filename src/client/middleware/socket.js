@@ -11,23 +11,49 @@ const socketMiddleware = () => {
         }
         store.dispatch({ type: 'CONNECTING' })
         socket = io('http://localhost:3000')
-        socket.on('connect_error', () => store.dispatch({ type: 'CONNECTING_ERROR' }))
-        socket.on('connect', () => store.dispatch({ type: 'CONNECTED' }))
-        return null
+        const connect = new Promise((resolve, reject) => {
+          socket.on('connect_error', () => reject('CONNECTING_ERROR'))
+          socket.on('connect', () => resolve('CONNECTED'))
+        })
+        return connect.then(type => store.dispatch({ type }))
+          .catch(type => store.dispatch({ type }))
+      case 'GET_TETRI':
+        socket.emit('getTetri')
+        const newTet = new Promise((resolve) => {
+          socket.on('newTetri', data => resolve(data.tetri))
+        })
+        return newTet.then(val => store.dispatch({
+          type: 'NEW_TETRI',
+          value: val,
+          position: 0,
+          x: 4,
+        }))
       case 'CONNECTED':
-
         socket.emit('getGame')
-          .on('newGame', data => store.dispatch({ type: 'UPDATE_GAME', value: data.game }))
         socket.emit('getTetri')
-          .on('newTetri', (data) => {
-            store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri, position: 0 })
-            store.dispatch({ type: 'START_GAME' })
-          })
-        return null
-      case 'GET_NEW_TETRI':
-        socket.emit('getTetri')
-          .on('newTetri', data => store.dispatch({ type: 'CHANGE_TETRI', value: data.tetri, position: 0 }))
-        return null
+        const newGame = new Promise((resolve) => {
+          socket.on('newGame', data => resolve({
+            type: 'NEW_GAME_BOARD',
+            data: data.game,
+          }))
+        })
+        const newTetri = new Promise((resolve) => {
+          socket.on('newTetri', data => resolve({
+            type: 'NEW_TETRI',
+            data: data.tetri,
+          }))
+        })
+        const startGame = Promise.resolve({ type: 'START_GAME' })
+        return Promise.all([newGame, newTetri, startGame]).then(values =>
+          values.map(val =>
+            store.dispatch({
+              type: val.type,
+              value: val.data || [],
+              position: 0,
+              x: 4,
+            }),
+          ),
+        )
       case 'DISCONNECT':
         if (socket !== null) {
           socket.close()

@@ -1,8 +1,6 @@
 const eventListener = () => store => next => (action) => {
   switch (action.type) {
     case 'START_GAME':
-      console.log('ACTUAL STATE : ', store.getState())
-      console.log('ACTION : ', action)
       document.addEventListener('keydown', (e) => {
         switch (parseInt(e.keyCode, 10)) {
           case 37:

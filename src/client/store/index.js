@@ -2,7 +2,7 @@ import createLogger from 'redux-logger'
 import { createStore, applyMiddleware } from 'redux'
 import { createEpicMiddleware } from 'redux-observable'
 import rootReducer from '../reducers/index'
-// import eventListener from '../middleware/eventListener'
+import previewTest from '../middleware/previewTest'
 import socketMiddleware from '../middleware/socket'
 import rootEpic from '../middleware/epics/index'
 
@@ -15,6 +15,7 @@ const configureStore = () => {
     middlewares.push(createLogger())
   }
   middlewares.push(epicMiddleware)
+  middlewares.push(previewTest)
   middlewares.push(socketMiddleware)
   // middlewares.push(eventListener)
 

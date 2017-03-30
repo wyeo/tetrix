@@ -20,7 +20,6 @@ const initValue = [
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
   [0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
   [0, 1, 1, 1, 1, 0, 1, 0, 0, 1],
@@ -29,8 +28,8 @@ const initValue = [
 ]
 const initialGame = new Game(initValue).getGame()
 
-
 const getTetri = () => tetris[Math.floor(Math.random() * tetris.length)]
+// const getTetri = () => tetris[0]
 
 const server = http.createServer((req, res) => {
   res.setHeader('Content-Type', 'text/plain')
