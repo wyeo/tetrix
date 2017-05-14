@@ -1,44 +1,42 @@
 import Rx from 'rxjs'
 import { combineEpics } from 'redux-observable'
 
-const windowKeyUpEpic = (action$, store) =>
+const windowKeyUpEpic = (action$, { getState }) =>
   Rx.Observable.fromEvent(document, 'keyup')
-    .filter(e => parseInt(e.keyCode, 10) === 38 && store.getState().game.length !== 0 && store.getState().tetri.type !== 'O')
+    .filter(
+      e => parseInt(e.keyCode, 10) === 38 &&
+      getState().game.length !== 0 &&
+      getState().tetri.type !== 'O',
+    )
     .mapTo(({ type: 'UPDATE_TETRI' }))
 
-// const windowKeySpaceEpic = () =>
-//   Rx.Observable.fromEvent(document, 'keyup')
-//     .filter(e => parseInt(e.keyCode, 10) === 32)
-//     .mapTo(({ type: 'START_GAME' }))
-
 // 37 === LEFT
+const windowKeyLeftEpic = (action$, { getState }) =>
+  Rx.Observable.fromEvent(document, 'keyup')
+    .filter(e => parseInt(e.keyCode, 10) === 37 && getState().game.length !== 0)
+    .map(() => ({
+      type: 'CHANGE_X',
+      value: getState().tetri.x - 1,
+    }))
 // 39 === RIGHT
-const windowKeyLeftEpic = (action$, store) =>
+const windowKeyRightEpic = (action$, { getState }) =>
   Rx.Observable.fromEvent(document, 'keyup')
-    .filter(e => parseInt(e.keyCode, 10) === 37 && store.getState().game.length !== 0)
+    .filter(e => parseInt(e.keyCode, 10) === 39 && getState().game.length !== 0)
     .map(() => ({
       type: 'CHANGE_X',
-      value: store.getState().tetri.x - 1,
+      value: getState().tetri.x + 1,
     }))
 
-const windowKeyRightEpic = (action$, store) =>
-  Rx.Observable.fromEvent(document, 'keyup')
-    .filter(e => parseInt(e.keyCode, 10) === 39 && store.getState().game.length !== 0)
-    .map(() => ({
-      type: 'CHANGE_X',
-      value: store.getState().tetri.x + 1,
-    }))
-
-const emitValues = (action$, store) =>
+const emitValues = (action$, { getState }) =>
   action$.ofType('START_GAME')
     .switchMap(
       () => Rx.Observable.interval(1000)
       .map(y => ({
         type: 'NEW_PREVIEW',
-        game: store.getState().game,
-        tetri: store.getState().tetri.values,
-        position: store.getState().tetri.position,
-        x: store.getState().tetri.x,
+        game: getState().game,
+        tetri: getState().tetri.values,
+        position: getState().tetri.position,
+        x: getState().tetri.x,
         y,
       }))
       .takeUntil(
