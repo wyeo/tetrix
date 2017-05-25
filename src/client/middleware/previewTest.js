@@ -10,8 +10,7 @@ const previewTest = store => next => (action) => {
       store.dispatch({
         type: 'GAME_OVER',
       })
-    }
-    if (state === true) {
+    } else if (state === true) {
       store.dispatch({
         type: 'NEW_GAME_BOARD',
         value: checkLines(tmpGame) ? cleanLines(tmpGame) : tmpGame,

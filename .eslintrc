@@ -6,6 +6,7 @@
     "expect": true,
     "describe": true,
     "it": true,
+    "window": true,
   },
   "parser": "babel-eslint",
   "react/forbid-prop-types": [<enabled>, { "forbid": [<string>] }],

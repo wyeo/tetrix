@@ -53,7 +53,7 @@ const Game = ({ status, tetri, previewGame, game, gameStart }) => {
     <div>
       <button disabled={game.length > 0} onClick={gameStart}>Start</button>
       <p>Status : {status}</p>
-      <TetriBoard tetri={tetri} />
+      {/* <TetriBoard tetri={tetri} /> */}
       <br />
       <GameBoard values={previewGame} />
       <br />

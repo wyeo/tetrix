@@ -16,11 +16,11 @@ const initValue = [
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  [0, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-  [0, 1, 1, 1, 0, 0, 1, 0, 0, 0],
-  [1, 1, 1, 1, 1, 0, 1, 0, 0, 1],
-  [0, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ]
 
 const tetriJ = [
@@ -44,11 +44,15 @@ const tetriT = [
   [0, 0, 0, 0],
 ]
 
-const tetriI = [
-  [1],
-  [1],
-  [1],
-  [1],
+const tetriI_0 = [
+  [0, 1, 0, 0],
+  [0, 1, 0, 0],
+  [0, 1, 0, 0],
+  [0, 1, 0, 0],
+]
+
+const tetriI_1 = [
+  [1, 1, 1, 1],
 ]
 
 const checkInsertion = (y, x, game, tetri) => {
@@ -105,6 +109,8 @@ const insertTetri = (y, x, game, tetri) => {
   }
   return { state, tmpGame }
 }
+console.log(insertTetri(16, 4, initValue, tetriI_0))
+
 
 module.exports = {
   insertTetri,
