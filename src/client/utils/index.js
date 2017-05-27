@@ -1,59 +1,12 @@
 const _ = require('lodash')
 
-const initValue = [
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-  Array(10).fill(0), // 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-]
-
-const tetriJ = [
-  [1, 1, 0],
-  [1, 0, 0],
-  [1, 0, 0],
-  [0, 0, 0],
-]
-
-const tetriS = [
-  [0, 1, 1, 0],
-  [1, 1, 0, 0],
-  [0, 0, 0, 0],
-  [0, 0, 0, 0],
-]
-
-const tetriT = [
-  [0, 1, 0, 0],
-  [0, 1, 1, 0],
-  [0, 1, 0, 0],
-  [0, 0, 0, 0],
-]
-
-const tetriI_0 = [
-  [0, 1, 0, 0],
-  [0, 1, 0, 0],
-  [0, 1, 0, 0],
-  [0, 1, 0, 0],
-]
-
-const tetriI_1 = [
-  [1, 1, 1, 1],
-]
+const biggestLength = tetri =>
+  tetri.reduce((acc, v) => {
+    if (v.length > acc) {
+      return v.length
+    }
+    return acc
+  }, 0)
 
 const checkInsertion = (y, x, game, tetri) => {
   const tmpGame = _.clone(game)
@@ -84,11 +37,9 @@ const checkLines = (game) => {
   return state
 }
 
-/* Implementation of (x,y) "insertTetri" */
 const insertTetri = (y, x, game, tetri) => {
   let state = false
   const tmpGame = game.slice()
-  // Check collision on the left and the right
   if (checkInsertion(y, x, tmpGame, tetri) && x >= 0 && x <= 9) {
     for (let i = 0; i < tetri.length; i += 1) {
       tetri[i].forEach((value, index) => {
@@ -109,11 +60,10 @@ const insertTetri = (y, x, game, tetri) => {
   }
   return { state, tmpGame }
 }
-console.log(insertTetri(16, 4, initValue, tetriI_0))
-
 
 module.exports = {
   insertTetri,
   checkLines,
   cleanLines,
+  biggestLength,
 }

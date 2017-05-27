@@ -32,6 +32,11 @@ const previewGame = (state = [], action) => {
         return insertTetri(y, x, game, action.tetri[action.position]).tmpGame
       }
       return state
+    case 'NEW_PREVIEW_FORGET':
+      if (insertTetri(y, x, game, action.tetri[action.position]).state === false) {
+        return insertTetri(y, x, game, action.tetri[action.position]).tmpGame
+      }
+      return state
     default:
       return state
   }
@@ -41,6 +46,15 @@ const game = (state = [], action) => {
   switch (action.type) {
     case 'NEW_GAME_BOARD':
       return action.value
+    default:
+      return state
+  }
+}
+
+const yPosition = (state = 0, { type, value }) => {
+  switch (type) {
+    case 'NEW_POSITION_Y':
+      return value
     default:
       return state
   }
@@ -60,6 +74,7 @@ const rootReducer = combineReducers({
   game,
   previewGame,
   status,
+  yPosition,
 })
 
 module.exports = rootReducer

@@ -12,7 +12,7 @@ const configureStore = () => {
   const middlewares = []
 
   if (process.env.NODE_ENV !== 'production') {
-    // middlewares.push(createLogger())
+    middlewares.push(createLogger())
   }
   middlewares.push(createEpicMiddleware(rootEpic))
   middlewares.push(previewTest)

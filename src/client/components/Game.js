@@ -48,18 +48,16 @@ const GameBoard = ({ values }) => {
   )
 }
 
-const Game = ({ status, tetri, previewGame, game, gameStart }) => {
-  return (
-    <div>
-      <button disabled={game.length > 0} onClick={gameStart}>Start</button>
-      <p>Status : {status}</p>
-      {/* <TetriBoard tetri={tetri} /> */}
-      <br />
-      <GameBoard values={previewGame} />
-      <br />
-      <GameBoard values={game} />
-    </div>
-  )
-}
+const Game = ({ status, tetri, previewGame, game, gameStart }) => (
+  <div>
+    <button disabled={game.length > 0} onClick={gameStart}>Start</button>
+    <p>Status : {status}</p>
+    {/* <TetriBoard tetri={tetri} /> */}
+    <br />
+    <GameBoard values={previewGame} />
+    <br />
+    {/* <GameBoard values={game} /> */}
+  </div>
+)
 
 export default connect(mapStateToProps, mapStateToDispatch)(Game)
