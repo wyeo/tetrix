@@ -3,7 +3,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin')
 
 module.exports = {
   context: __dirname,
-  entry: './src/client/app.js',
+  entry: './src/app.js',
   output: {
     path: resolve(__dirname, 'bin'),
     filename: 'app.output.js',
