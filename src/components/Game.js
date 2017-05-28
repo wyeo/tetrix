@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Button } from 'semantic-ui-react'
 
 const Line = ({ values }) => (
   <div>
@@ -21,10 +22,15 @@ const GameBoard = ({ values }) => {
 
 const Game = ({ status, previewGame, game, gameStart }) => (
   <div>
-    <button disabled={game.length > 0} onClick={gameStart}>Start</button>
     <p>Status : {status}</p>
     <br />
     <GameBoard values={previewGame} />
+    <br />
+    <Button.Group>
+      <Button labelPosition={'left'} icon={'left chevron'} content={'Left'} />
+      <Button disabled={game.length > 0} icon={'play'} content={'Play'} onClick={gameStart} />
+      <Button labelPosition={'right'} icon={'right chevron'} content={'right'} />
+    </Button.Group>
   </div>
 )
 

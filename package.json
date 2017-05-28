@@ -1,14 +1,11 @@
 {
-  "name": "red-tetris",
+  "name": "rx-tetris",
   "version": "0.0.1",
   "description": "User Guide :",
   "main": "index.js",
   "scripts": {
     "config": "rm -rf .git && npm init",
     "test": "jest",
-    "babel-node": "babel-node src/server/server.js",
-    "server:prod": "babel-node src/server/server",
-    "server:dev": "nodemon --exec npm run babel-node",
     "start": "webpack-dev-server --hot --inline --content-base ./"
   },
   "jest": {
@@ -31,6 +28,7 @@
     "redux-observable": "^0.13.0",
     "rx-dom": "^7.0.3",
     "rxjs": "^5.2.0",
+    "semantic-ui-react": "^0.68.4",
     "socket.io": "^1.7.3",
     "socket.io-client": "^1.7.3",
     "ws": "^2.2.0"

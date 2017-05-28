@@ -7,13 +7,20 @@ const windowKeyUpEpic = (action$, { getState }) =>
     .filter(
       e => parseInt(e.keyCode, 10) === 38
       && getState().game.length !== 0
-      && getState().tetri.values[getState().tetri.position + 1]
-      && getState().tetri.x + biggestLength(
-        getState().tetri.values[getState().tetri.position + 1],
-      ) <= 10
+      // && getState().tetri.values[getState().tetri.position + 1]
+      // && getState().tetri.x + biggestLength(
+      //   getState().tetri.values[getState().tetri.position + 1],
+      // ) <= 10
       && getState().tetri.type !== 'O',
-    )
-    .mapTo(({ type: 'UPDATE_TETRI' }))
+    ).map(() => {
+      if (getState().tetri.position + 1 <= 3 && getState().tetri.x + biggestLength(getState().tetri.values[getState().tetri.position + 1]) <= 10) {
+        return { type: 'UPDATE_TETRI' }
+      }
+      return { type: 'UPDATE_TETRI' }
+    })
+    // .mapTo({
+    //   type: 'UPDATE_TETRI',
+    // })
 
 // 37 === LEFT
 const windowKeyLeftEpic = (action$, { getState }) =>
