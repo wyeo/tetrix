@@ -4,6 +4,7 @@ import { createEpicMiddleware } from 'redux-observable'
 import rootReducer from '../reducers'
 import previewTest from '../middlewares/previewTest'
 import getElements from '../middlewares/getElements'
+import handleButtons from '../middlewares/handleButtons'
 import rootEpic from '../middlewares/epics'
 
 /* eslint-disable no-underscore-dangle */
@@ -19,6 +20,7 @@ const configureStore = () => {
 
   middlewares.push(previewTest)
   middlewares.push(getElements)
+  middlewares.push(handleButtons)
 
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   return createStore(
