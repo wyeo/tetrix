@@ -13,11 +13,12 @@ const getElements = store => next => (action) => {
     })
   }
   if (action.type === 'GET_TETRI') {
+    const { type, value } = getTetri()
     store.dispatch({
       type: 'NEW_TETRI',
       value: {
-        type: getTetri().type,
-        value: getTetri().value,
+        type,
+        value,
         position: 0,
         x: 4,
       },
