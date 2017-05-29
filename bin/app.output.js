@@ -24222,21 +24222,21 @@
 
 	var _reduxObservable = __webpack_require__(229);
 
-	var _index = __webpack_require__(275);
+	var _reducers = __webpack_require__(275);
 
-	var _index2 = _interopRequireDefault(_index);
+	var _reducers2 = _interopRequireDefault(_reducers);
 
-	var _previewTest = __webpack_require__(278);
+	var _previewTest = __webpack_require__(282);
 
 	var _previewTest2 = _interopRequireDefault(_previewTest);
 
-	var _getElements = __webpack_require__(279);
+	var _getElements = __webpack_require__(283);
 
 	var _getElements2 = _interopRequireDefault(_getElements);
 
-	var _index3 = __webpack_require__(284);
+	var _epics = __webpack_require__(284);
 
-	var _index4 = _interopRequireDefault(_index3);
+	var _epics2 = _interopRequireDefault(_epics);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -24248,12 +24248,14 @@
 	  if (process.env.NODE_ENV !== 'production') {
 	    // middlewares.push(createLogger())
 	  }
-	  middlewares.push((0, _reduxObservable.createEpicMiddleware)(_index4.default));
+
+	  middlewares.push((0, _reduxObservable.createEpicMiddleware)(_epics2.default));
+
 	  middlewares.push(_previewTest2.default);
 	  middlewares.push(_getElements2.default);
 
 	  var composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || _redux.compose;
-	  return (0, _redux.createStore)(_index2.default, composeEnhancers(_redux.applyMiddleware.apply(undefined, middlewares)));
+	  return (0, _redux.createStore)(_reducers2.default, composeEnhancers(_redux.applyMiddleware.apply(undefined, middlewares)));
 	};
 
 	/* eslint-enable */
@@ -28374,6 +28376,8 @@
 
 	var _index = __webpack_require__(276);
 
+	var _server = __webpack_require__(278);
+
 	var tetri = function tetri() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
@@ -28400,7 +28404,7 @@
 	};
 
 	var previewGame = function previewGame() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _server.initialGame;
 	  var action = arguments[1];
 	  var y = action.y,
 	      x = action.x,
@@ -45654,97 +45658,11 @@
 
 	'use strict';
 
-	var _index = __webpack_require__(276);
-
-	var previewTest = function previewTest(store) {
-	  return function (next) {
-	    return function (action) {
-	      var type = action.type,
-	          y = action.y,
-	          x = action.x,
-	          game = action.game,
-	          tetri = action.tetri,
-	          position = action.position;
-
-
-	      if (type === 'NEW_PREVIEW') {
-	        var _insertTetri = (0, _index.insertTetri)(y, x, game, tetri[position]),
-	            state = _insertTetri.state;
-
-	        var _insertTetri2 = (0, _index.insertTetri)(y - 1, x, game, tetri[position]),
-	            tmpGame = _insertTetri2.tmpGame;
-
-	        if (state === true && y < 2) {
-	          store.dispatch({
-	            type: 'GAME_OVER'
-	          });
-	        } else if (state === true) {
-	          store.dispatch({
-	            type: 'NEW_GAME_BOARD',
-	            value: (0, _index.checkLines)(tmpGame) ? (0, _index.cleanLines)(tmpGame) : tmpGame
-	          });
-	          store.dispatch({ type: 'GET_TETRI' });
-	          store.dispatch({ type: 'START_GAME' });
-	        }
-	      }
-	      return next(action);
-	    };
-	  };
-	};
-
-	module.exports = previewTest;
-
-/***/ }),
-/* 279 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _server = __webpack_require__(280);
-
-	var getElements = function getElements(store) {
-	  return function (next) {
-	    return function (action) {
-	      if (action.type === 'BEGIN') {
-	        store.dispatch({ type: 'GET_GAME' });
-	        store.dispatch({ type: 'GET_TETRI' });
-	        store.dispatch({ type: 'START_GAME' });
-	      }
-	      if (action.type === 'GET_GAME') {
-	        store.dispatch({
-	          type: 'NEW_GAME',
-	          value: _server.initialGame
-	        });
-	      }
-	      if (action.type === 'GET_TETRI') {
-	        store.dispatch({
-	          type: 'NEW_TETRI',
-	          value: {
-	            type: (0, _server.getTetri)().type,
-	            value: (0, _server.getTetri)().value,
-	            position: 0,
-	            x: 4
-	          }
-	        });
-	      }
-	      return next(action);
-	    };
-	  };
-	};
-
-	module.exports = getElements;
-
-/***/ }),
-/* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _Game = __webpack_require__(281);
+	var _Game = __webpack_require__(279);
 
 	var _Game2 = _interopRequireDefault(_Game);
 
-	var _Tetri = __webpack_require__(282);
+	var _Tetri = __webpack_require__(280);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -45781,7 +45699,7 @@
 	};
 
 /***/ }),
-/* 281 */
+/* 279 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -45815,14 +45733,14 @@
 	module.exports = Game;
 
 /***/ }),
-/* 282 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _Piece8 = __webpack_require__(283);
+	var _Piece8 = __webpack_require__(281);
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -46024,7 +45942,7 @@
 	};
 
 /***/ }),
-/* 283 */
+/* 281 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -46063,6 +45981,96 @@
 	};
 
 /***/ }),
+/* 282 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _index = __webpack_require__(276);
+
+	var previewTest = function previewTest(store) {
+	  return function (next) {
+	    return function (action) {
+	      var type = action.type,
+	          y = action.y,
+	          x = action.x,
+	          game = action.game,
+	          tetri = action.tetri,
+	          position = action.position;
+
+
+	      if (type === 'NEW_PREVIEW') {
+	        var _insertTetri = (0, _index.insertTetri)(y, x, game, tetri[position]),
+	            state = _insertTetri.state;
+
+	        var _insertTetri2 = (0, _index.insertTetri)(y - 1, x, game, tetri[position]),
+	            tmpGame = _insertTetri2.tmpGame;
+
+	        if (state === true && y < 2) {
+	          store.dispatch({
+	            type: 'GAME_OVER'
+	          });
+	        } else if (state === true) {
+	          store.dispatch({
+	            type: 'NEW_GAME_BOARD',
+	            value: (0, _index.checkLines)(tmpGame) ? (0, _index.cleanLines)(tmpGame) : tmpGame
+	          });
+	          store.dispatch({ type: 'GET_TETRI' });
+	          store.dispatch({ type: 'START_GAME' });
+	        }
+	      }
+	      return next(action);
+	    };
+	  };
+	};
+
+	module.exports = previewTest;
+
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _server = __webpack_require__(278);
+
+	var getElements = function getElements(store) {
+	  return function (next) {
+	    return function (action) {
+	      if (action.type === 'BEGIN') {
+	        store.dispatch({ type: 'GET_GAME' });
+	        store.dispatch({ type: 'GET_TETRI' });
+	        store.dispatch({ type: 'START_GAME' });
+	      }
+	      if (action.type === 'GET_GAME') {
+	        store.dispatch({
+	          type: 'NEW_GAME',
+	          value: _server.initialGame
+	        });
+	      }
+	      if (action.type === 'GET_TETRI') {
+	        var _getTetri = (0, _server.getTetri)(),
+	            type = _getTetri.type,
+	            value = _getTetri.value;
+
+	        store.dispatch({
+	          type: 'NEW_TETRI',
+	          value: {
+	            type: type,
+	            value: value,
+	            position: 0,
+	            x: 4
+	          }
+	        });
+	      }
+	      return next(action);
+	    };
+	  };
+	};
+
+	module.exports = getElements;
+
+/***/ }),
 /* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -46074,32 +46082,18 @@
 
 	var _reduxObservable = __webpack_require__(229);
 
-	var _index = __webpack_require__(276);
+	var _utils = __webpack_require__(276);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var windowKeyUpEpic = function windowKeyUpEpic(action$, _ref) {
+	var keyUp = function keyUp(action$, _ref) {
 	  var getState = _ref.getState;
 	  return _rxjs2.default.Observable.fromEvent(document, 'keyup').filter(function (e) {
-	    return parseInt(e.keyCode, 10) === 38 && getState().game.length !== 0
-	    // && getState().tetri.values[getState().tetri.position + 1]
-	    // && getState().tetri.x + biggestLength(
-	    //   getState().tetri.values[getState().tetri.position + 1],
-	    // ) <= 10
-	    && getState().tetri.type !== 'O';
-	  }).map(function () {
-	    if (getState().tetri.position + 1 <= 3 && getState().tetri.x + (0, _index.biggestLength)(getState().tetri.values[getState().tetri.position + 1]) <= 10) {
-	      return { type: 'UPDATE_TETRI' };
-	    }
-	    return { type: 'UPDATE_TETRI' };
-	  });
+	    return parseInt(e.keyCode, 10) === 38 && getState().game.length !== 0 && getState().tetri.type !== 'O';
+	  }).mapTo({ type: 'UPDATE_TETRI' });
 	};
-	// .mapTo({
-	//   type: 'UPDATE_TETRI',
-	// })
 
-	// 37 === LEFT
-	var windowKeyLeftEpic = function windowKeyLeftEpic(action$, _ref2) {
+	var keyLeft = function keyLeft(action$, _ref2) {
 	  var getState = _ref2.getState;
 	  return _rxjs2.default.Observable.fromEvent(document, 'keyup').filter(function (e) {
 	    return parseInt(e.keyCode, 10) === 37 && getState().game.length !== 0 && getState().tetri.x > 0;
@@ -46111,11 +46105,10 @@
 	  });
 	};
 
-	// 39 === RIGHT
-	var windowKeyRightEpic = function windowKeyRightEpic(action$, _ref3) {
+	var keyRight = function keyRight(action$, _ref3) {
 	  var getState = _ref3.getState;
 	  return _rxjs2.default.Observable.fromEvent(document, 'keyup').filter(function (e) {
-	    return parseInt(e.keyCode, 10) === 39 && getState().game.length !== 0 && getState().tetri.x + (0, _index.biggestLength)(getState().tetri.values[getState().tetri.position]) <= 9;
+	    return parseInt(e.keyCode, 10) === 39 && getState().game.length !== 0 && getState().tetri.x + (0, _utils.biggestLength)(getState().tetri.values[getState().tetri.position]) <= 9;
 	  }).map(function () {
 	    return {
 	      type: 'CHANGE_X',
@@ -46126,9 +46119,7 @@
 
 	var emitValues = function emitValues(action$, _ref4) {
 	  var getState = _ref4.getState;
-	  return action$.filter(function (action) {
-	    return action.type === 'START_GAME' || action.type === 'NEW_START_PREVIEW';
-	  }).switchMap(function () {
+	  return action$.ofType('START_GAME').switchMap(function () {
 	    return _rxjs2.default.Observable.interval(700).map(function (y) {
 	      return {
 	        type: 'NEW_PREVIEW',
@@ -46142,7 +46133,7 @@
 	  });
 	};
 
-	var rootEpic = (0, _reduxObservable.combineEpics)(emitValues, windowKeyRightEpic, windowKeyLeftEpic, windowKeyUpEpic);
+	var rootEpic = (0, _reduxObservable.combineEpics)(emitValues, keyRight, keyLeft, keyUp);
 
 	module.exports = rootEpic;
 

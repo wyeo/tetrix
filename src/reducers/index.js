@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { insertTetri } from '../utils/index'
+import { insertTetri } from '../utils/'
 import { initialGame } from '../utils/server'
 
 const tetri = (state = [], action) => {

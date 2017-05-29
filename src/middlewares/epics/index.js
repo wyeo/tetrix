@@ -1,29 +1,16 @@
 import Rx from 'rxjs'
 import { combineEpics } from 'redux-observable'
-import { biggestLength } from '../../utils/index'
+import { biggestLength } from '../../utils'
 
-const windowKeyUpEpic = (action$, { getState }) =>
+const keyUp = (action$, { getState }) =>
   Rx.Observable.fromEvent(document, 'keyup')
     .filter(
       e => parseInt(e.keyCode, 10) === 38
       && getState().game.length !== 0
-      // && getState().tetri.values[getState().tetri.position + 1]
-      // && getState().tetri.x + biggestLength(
-      //   getState().tetri.values[getState().tetri.position + 1],
-      // ) <= 10
-      && getState().tetri.type !== 'O',
-    ).map(() => {
-      if (getState().tetri.position + 1 <= 3 && getState().tetri.x + biggestLength(getState().tetri.values[getState().tetri.position + 1]) <= 10) {
-        return { type: 'UPDATE_TETRI' }
-      }
-      return { type: 'UPDATE_TETRI' }
-    })
-    // .mapTo({
-    //   type: 'UPDATE_TETRI',
-    // })
+      && getState().tetri.type !== 'O')
+    .mapTo({ type: 'UPDATE_TETRI' })
 
-// 37 === LEFT
-const windowKeyLeftEpic = (action$, { getState }) =>
+const keyLeft = (action$, { getState }) =>
   Rx.Observable.fromEvent(document, 'keyup')
     .filter(
       e => parseInt(e.keyCode, 10) === 37
@@ -34,23 +21,21 @@ const windowKeyLeftEpic = (action$, { getState }) =>
       value: getState().tetri.x - 1,
     }))
 
-// 39 === RIGHT
-const windowKeyRightEpic = (action$, { getState }) =>
+const keyRight = (action$, { getState }) =>
   Rx.Observable.fromEvent(document, 'keyup')
     .filter(
       e => parseInt(e.keyCode, 10) === 39
       && getState().game.length !== 0
       && getState().tetri.x + biggestLength(
           getState().tetri.values[getState().tetri.position],
-        ) <= 9,
-    )
+        ) <= 9)
     .map(() => ({
       type: 'CHANGE_X',
       value: getState().tetri.x + 1,
     }))
 
 const emitValues = (action$, { getState }) =>
-  action$.filter(action => action.type === 'START_GAME' || action.type === 'NEW_START_PREVIEW')
+  action$.ofType('START_GAME')
     .switchMap(
       () => Rx.Observable.interval(700)
       .map(y => ({
@@ -71,9 +56,9 @@ const emitValues = (action$, { getState }) =>
 
 const rootEpic = combineEpics(
   emitValues,
-  windowKeyRightEpic,
-  windowKeyLeftEpic,
-  windowKeyUpEpic,
+  keyRight,
+  keyLeft,
+  keyUp,
 )
 
 module.exports = rootEpic
