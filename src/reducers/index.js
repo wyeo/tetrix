@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import { insertTetri } from '../utils/index'
+import { initialGame } from '../utils/server'
 
 const tetri = (state = [], action) => {
   switch (action.type) {
@@ -23,7 +24,7 @@ const tetri = (state = [], action) => {
   }
 }
 
-const previewGame = (state = [], action) => {
+const previewGame = (state = initialGame, action) => {
   const { y, x, game } = action
 
   switch (action.type) {
