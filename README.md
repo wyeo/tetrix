@@ -1,1 +1,1 @@
-[Demo!](https://wyeo.github.io/rx-tetris/)
+[Demo!](https://wyeo.github.io/tetrix/)
