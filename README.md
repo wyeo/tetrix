@@ -1,1 +1,1 @@
-[Demo!](https://mrwi2l.github.io/tetrix/)
+[Demo!](https://wyeo.github.io/tetrix/)
